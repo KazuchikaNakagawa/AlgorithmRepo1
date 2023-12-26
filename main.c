@@ -59,9 +59,11 @@ int main()
         height_sq_overall += depth * depth;
 
         *array_new_element_ptr(&trees) = tree;
-        num_pattern_print(list.patterns[i]);
-        printf("\n");
-        binary_tree_print(tree);
+        if (binary_tree_is_complete(tree)) {
+            num_pattern_print(list.patterns[i]);
+            printf("\n");
+            binary_tree_print(tree);
+        }
     }
 
     float height_aver = height_overall / count;

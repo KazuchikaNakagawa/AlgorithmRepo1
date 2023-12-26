@@ -103,7 +103,7 @@ int BTP_height(int depth)
     if (depth == 1) {
         return 1;
     }
-    return BTP_height(depth - 1) + depth;
+    return BTP_width(depth) / 2 + 1;
 }
 
 void BTP(binary_tree* tree, char** field, int x, int y)
@@ -116,7 +116,10 @@ void BTP(binary_tree* tree, char** field, int x, int y)
     field[y][x] = '0' + tree->data;
 
     // print lhs
-    int ldepth = binary_tree_depth(tree->left);
+    int ldepth = BTP_width(binary_tree_depth(tree->left)) / 2;
+    if (BTP_width(binary_tree_depth(tree->left)) == 1) {
+        ldepth = 1;
+    }
     int ly = y;
     int lx = x;
     for (int i = 0; i < ldepth; i++) {
@@ -125,7 +128,10 @@ void BTP(binary_tree* tree, char** field, int x, int y)
     BTP(tree->left, field, --lx, ++ly);
 
     // print rhs
-    int rdepth = binary_tree_depth(tree->right);
+    int rdepth = BTP_width(binary_tree_depth(tree->right)) / 2;
+    if (BTP_width(binary_tree_depth(tree->right)) == 1) {
+        rdepth = 1;
+    }
     int ry = y;
     int rx = x;
     for (int i = 0; i < rdepth; i++) {
@@ -141,6 +147,8 @@ void binary_tree_print(binary_tree* tree)
     char** field;
     int width = BTP_width(depth);
     int height = BTP_height(depth);
+
+    // printf("%dx%d\n", width, height);
     field = malloc(sizeof(char*) * height);
 
     for (int i = 0; i < height; i++) {
